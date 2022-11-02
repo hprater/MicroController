@@ -3,6 +3,13 @@
 //TopLevel
 
 `timescale 1ns/10ps
+
+//------For Visual Studio-------
+`include "ALU.v"
+`include "dff.v"
+`include "tri_state.v"
+//------------------------------
+
 module top_level(clk, rst, bus, R0out, R1out, R0in, R1in, tem0, tem1);
     input clk, rst;
     output wire[3:0] bus; 

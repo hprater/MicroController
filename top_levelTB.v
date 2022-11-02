@@ -14,6 +14,11 @@ top_level test(clk, rst, bus, R0out, R1out, R0in, R1in);
 initial 
 begin
 
+//------For Visual Studio-------
+$dumpfile("ALU.vcd");
+$dumpvars(0, top_levelTB);
+//------------------------------
+
     clk = 0;
     R0in = 0; 
     R0out = 0;
