@@ -4,14 +4,14 @@
 `timescale 1ns/10ps
 module tri_state (en, d, q);
     input en;
-    input [3:0] d; 
-    output reg [3:0] q;
+    input [15:0] d; 
+    output reg [15:0] q;
 
     always @(en or d) 
     begin 
     if(en)
         q = d;
     else 
-        q = 4'bzzzz;
+        q = 16'bzzzzzzzzzzzzzzzz;
     end
 endmodule
