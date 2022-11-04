@@ -17,7 +17,6 @@ module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach,
     input [15:0] temp1; //Houses output of ALU
     input [15:0] temp2; //Houses output of R2-Dff
     input [15:0] temp3; //Houses output of R1-DFF
-    //will be a one 16 bit bus for final project, split for testing.
     input [15:0] bus_in; 
     output wire[15:0] bus_out; 
     
