@@ -10,18 +10,25 @@
 `include "tri_state.v"
 //------------------------------
 
-module top_level(clk, rst, bus, R0out, R1out, R0in, R1in, tem0, tem1);
-    input clk, rst;
-    output wire[3:0] bus; 
-    input R0in, R1in, R0out, R1out;
-    input [3:0] tem0; //Houses output of R0-Dff
-    input [3:0] tem1; //Houses output of R1-Dff
+module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach, ALU_outEN);
+    input clk, rst, ALUin1, ALUin2, ALU_outlach, ALU_outEN;
+    input [2:0] opCode;
+    input [15:0] temp0; //Houses output of R0
+    input [15:0] temp1; //Houses output of ALU
+    input [15:0] temp2; //Houses output of R2-Dff
+    input [15:0] temp3; //Houses output of R1-DFF
+    input [15:0] bus_in; //will be a one 16 bit bus for final project, split for testing.
+    output wire[15:0] bus_out; 
     
 
     //Mapping the ports
-    dff R0(clk, rst, R0in, bus, tem0);
-    dff R1(clk, rst, R1in, bus, tem1);
-    tri_state t0(R0out, tem0, bus);
-    tri_state t1(R1out, tem1, bus);
+    ALU Alu(opCode, temp0, temp3, temp1);
+
+    dff R0(clk, rst, ALUin1, bus_in, temp0);
+    dff R1(clk, rst, ALUin2, bus_in, temp3);
+    dff R2_out(clk, rst, ALU_outlach, temp1, temp2);
+
+    tri_state t0(ALU_outEN, temp2, bus_out);
+
 
 endmodule 
