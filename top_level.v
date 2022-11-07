@@ -22,13 +22,17 @@ module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach,
     
 
     //Mapping the ports
-    ALU Alu(opCode, temp0, temp3, temp1);
 
+    //ALU
+    ALU Alu(opCode, temp0, temp3, temp1);
     dff R0(clk, rst, ALUin1, bus_in, temp0);
     dff R1(clk, rst, ALUin2, bus_in, temp3);
     dff R2_out(clk, rst, ALU_outlach, temp1, temp2);
-
     tri_state t0(ALU_outEN, temp2, bus_out);
+
+    //General Registers
+    //#1
+    
 
 
 endmodule 
