@@ -1,4 +1,4 @@
-module memory (Data_out, MFC, EN, addr, Data_in, RW);
+module memory (EN, MFC, addr, RW, Data_in, Data_out);
     input EN, RW;
     input [15:0] addr, Data_in;
     output [15:0] Data_out;
@@ -35,5 +35,5 @@ module memory (Data_out, MFC, EN, addr, Data_in, RW);
 
     always @(negedge EN)
         MFC = 0;
-        
+
 endmodule
