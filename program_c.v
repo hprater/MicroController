@@ -8,7 +8,7 @@ module program_c(count, rst, clk);
 input clk, rst;
 output reg [15:0] count;
 
-always @(posedge clk)
+always @(posedge clk or posedge rst)
     begin
     if(rst)
         count <= 16'b0000000000000000;
