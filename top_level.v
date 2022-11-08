@@ -13,8 +13,8 @@
 //------------------------------
 
 module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach, ALU_outEN, 
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, PC_EN, P0_in, P0_out, P1_in, P1_out, P0temp, P1tempTB, 
-                mem_RW, mem_EN, MAR_EN, MDR_EN_write, MDR_EN_read, MDR_out);
+G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, PC_EN, P0_in, P0_out, P1_in, P1_out, P0temp, P1tempTB, 
+mem_RW, mem_EN, MAR_EN, MDR_EN_write, MDR_EN_read, MDR_out, MFC);
     input clk, rst;
     //ALU Control Signals
     input ALUin1, ALUin2, ALU_outlach, ALU_outEN;
