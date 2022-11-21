@@ -30,7 +30,7 @@ module memory (EN, MFC, addr, RW, Data_in, Data_out);
             endcase
         end
         else memorycell = Data_in;
-        #10 MFC = 1;
+        #5 MFC = 1;
     end
 
     always @(negedge EN)
