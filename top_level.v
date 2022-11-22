@@ -45,6 +45,9 @@ module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach,
     //Instruction Reg Control Signal
     input IR_EN;
     wire [15:0]IR_fullBitInstruct;
+    //tri-state immideate numnbers
+    input immediate_out;
+    wire [15:0] temp13;
     //Buss
     input [15:0] bus_in; 
     output wire[15:0] bus_out; 
@@ -94,7 +97,10 @@ module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach,
     tri_state t8(MDR_out, temp12, bus_out);
 
     //Instruction Register
-    dff IR (clk, rst, IR_EN, bus_in, IR_fullBitInstruct); 
+    dff IR (clk, rst, IR_EN, bus_in, IR_fullBitInstruct);
+
+    //Tri-states for Immideate;
+    tri_state ALUInum(immediate_out, temp13, bus_out); 
 
 
 

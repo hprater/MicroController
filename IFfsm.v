@@ -37,7 +37,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
     always @(pres_state) 
     begin
         case (pres_state)
-            st0: 
+//---------------------------st0-----------------------------
+        st0: 
             begin
             PC_Out <= 1;
             MAR_EN <= 0;
@@ -47,8 +48,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            st1: 
+//---------------------------st1-----------------------------
+        st1: 
             begin
             PC_Out <= 1;
             MAR_EN <= 0;
@@ -58,8 +59,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            st2: 
+//---------------------------st2-----------------------------
+        st2: 
             begin
             PC_Out <= 1;
             MAR_EN <= 1;
@@ -69,8 +70,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            st3: 
+//---------------------------st3-----------------------------
+        st3: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
@@ -80,8 +81,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            st4: 
+//---------------------------st4-----------------------------
+        st4: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
@@ -91,8 +92,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            st5: 
+//---------------------------st5-----------------------------
+        st5: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
@@ -102,8 +103,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            st6: 
+//---------------------------st6-----------------------------
+        st6: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
@@ -113,8 +114,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 1;
             IR_EN <= 0;
             end
-
-            st7: 
+//---------------------------st7-----------------------------
+        st7: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
@@ -124,8 +125,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 1;
             IR_EN <= 1;
             end
-
-            st8: 
+//---------------------------st8-----------------------------
+        st8: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
@@ -135,8 +136,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             MDR_out <= 0;
             IR_EN <= 0;
             end
-
-            default: 
+//------------------------default-----------------------------
+        default: 
             begin
             PC_Out <= 0;
             MAR_EN <= 0;

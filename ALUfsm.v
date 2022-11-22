@@ -49,7 +49,7 @@ wire [5:0]param2 = fullBitNum[5:0];
     begin
         case (pres_state)
 //---------------------------st0-----------------------------
-            st0: 
+        st0: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -64,7 +64,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             end
 
 //---------------------------st1-----------------------------
-            st1: 
+        st1: 
             begin
             PC_inc <= 1;
             //Gxout
@@ -91,7 +91,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st2-----------------------------
-            st2: 
+        st2: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -118,7 +118,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st3-----------------------------
-            st3: 
+        st3: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -132,7 +132,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st4-----------------------------
-            st4: 
+        st4: 
             begin
            PC_inc <= 0;
             //Gxout
@@ -159,7 +159,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st5-----------------------------
-            st5: 
+        st5: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -186,7 +186,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st6-----------------------------
-            st6: 
+        st6: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -200,7 +200,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st7-----------------------------
-            st7: 
+        st7: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -214,7 +214,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st8-----------------------------
-            st8: 
+        st8: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -241,7 +241,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 0;
             end
 //---------------------------st9-----------------------------
-            st9: 
+        st9: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -255,7 +255,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             done <= 1;
             end
 //---------------------------st10-----------------------------
-            st10: 
+        st10: 
             begin
             PC_inc <= 0;
             //Gxout
@@ -270,7 +270,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             end
 
 //------------------------default-----------------------------
-            default: 
+        default: 
             begin
             PC_inc <= 0;
             //Gxout
