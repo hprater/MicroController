@@ -41,6 +41,7 @@ wire [5:0]param2 = fullBitNum[5:0];
            st7 : next_state <= st8;
            st8 : next_state <= st9;
            st9 : next_state <= st10;
+           st10 : next_state <= st10;
         default: next_state <= st0;
         endcase
     end

@@ -47,7 +47,7 @@ always @(posedge clk or posedge rst)
            st6 : next_state <= st7;
            st7 : next_state <= st8; 
 
-           st8 : next_state <= st8; //setting all signals back to 0 ** NEED THIS FOR ALL??
+           st8 : next_state <= st8; //setting all signals back to 0 
 
            //Load Steps
            st9 : next_state <= st10;
@@ -84,7 +84,7 @@ always @(pres_state)
             begin
             PC_inc <= 1;
             //Gxout
-            case(param1)
+            case(param2)
             6'b000000: begin
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
                 end
@@ -113,7 +113,7 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            case(param1)
+            case(param2)
             6'b000000: begin
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
                 end
@@ -158,7 +158,7 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            case(param2)
+            case(param1)
             6'b000000: begin
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
                 end
@@ -187,7 +187,7 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            case(param2)
+            case(param1)
             6'b000000: begin
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
                 end

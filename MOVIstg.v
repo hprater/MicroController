@@ -35,6 +35,7 @@ always @(pres_state)
            st2 : next_state <= st3;
            st3 : next_state <= st4;
            st4 : next_state <= st5;
+           st5 : next_state <= st5;
         default: next_state <= st0;
         endcase
     end

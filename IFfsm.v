@@ -30,6 +30,7 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
            st5 : next_state <= st6;
            st6 : next_state <= st7;
            st7 : next_state <= st8;
+           st8 : next_state <= st8;
         default: next_state <= st0;
         endcase
     end
