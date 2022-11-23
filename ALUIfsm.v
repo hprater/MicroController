@@ -21,7 +21,7 @@ always @(posedge clk or posedge rst)
     begin
         if (rst)
             pres_state <= st0;
-        else if (opCode == 4'b0010 || opCode == 4'b0001)
+        else if (opCode == 4'b0001 || opCode == 4'b0010)
             pres_state <= next_state;
         else 
             pres_state <= st0;
@@ -140,7 +140,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            //Passing # into bus to latch to ALUin2
+            //Passing # into bus to latch to ALUin2, might need another state if timing becomes problem
             param2num <= param2;
             immediate_out_Alui <= 1;
             ALUin2 <= 1;
