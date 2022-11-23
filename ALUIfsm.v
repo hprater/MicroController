@@ -2,11 +2,11 @@
 //November 21, 2022
 //ALUI FSM
 
-module ALUIfsm (clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out, param2num,
+module ALUIfsm (clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui, param2num,
                 G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out);
 input clk, rst;
 input [15:0] fullBitNum;
-output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out;
+output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui;
 output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out;
 reg [3:0] pres_state, next_state;
     parameter st0 = 4'b0000, st1 = 4'b0001, st2 = 4'b0010, st3 = 4'b0011, st4 = 4'b0100,
@@ -53,7 +53,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -81,7 +81,7 @@ always @(pres_state)
             end
             endcase
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -110,7 +110,7 @@ always @(pres_state)
             end
             endcase
             ALUin1 <= 1;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -125,7 +125,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -142,7 +142,7 @@ always @(pres_state)
             ALUin1 <= 0;
             //Passing # into bus to latch to ALUin2
             param2num <= param2;
-            immediate_out <= 1;
+            immediate_out_Alui <= 1;
             ALUin2 <= 1;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -157,7 +157,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 1;
             ALU_outEN <= 0;
@@ -172,7 +172,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 1;
@@ -187,7 +187,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 1;
@@ -215,7 +215,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -230,7 +230,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
@@ -245,7 +245,7 @@ always @(pres_state)
             //Gxout
             G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
             ALUin1 <= 0;
-            immediate_out <= 0;
+            immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;

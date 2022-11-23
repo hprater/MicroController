@@ -46,8 +46,10 @@ module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach,
     input IR_EN;
     wire [15:0]IR_fullBitInstruct;
     //tri-state immideate numnbers
-    input immediate_out;
+    input immediate_out_Alui;
+    input immediate_out_Movi;
     wire [15:0] temp13;
+    wire [15:0] temp14;
     //Buss
     input [15:0] bus_in; 
     output wire[15:0] bus_out; 
@@ -100,7 +102,8 @@ module top_level(clk, rst, bus_in, bus_out, opCode, ALUin1, ALUin2, ALU_outlach,
     dff IR (clk, rst, IR_EN, bus_in, IR_fullBitInstruct);
 
     //Tri-states for Immideate;
-    tri_state ALUInum(immediate_out, temp13, bus_out); 
+    tri_state ALUInum(immediate_out_Alui, temp13, bus_out); 
+    tri_state MOVInum(immediate_out_Movi, temp14, bus_out);
 
 
 
