@@ -2,9 +2,9 @@
 //November 21, 2022
 //Memory Load/Store
 
-module MemLoadStore (clk, rst, fullBitNum, PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done,
+module MemLoadStore (clk, rst, fullBitNum, MFC, PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done,
                     G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out);
-input clk, rst;
+input clk, rst, MFC;
 input [15:0] fullBitNum;
 output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out;
 output reg PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done;
@@ -30,6 +30,7 @@ always @(posedge clk or posedge rst)
  always @(pres_state) 
     begin
         case (pres_state)
+           //Feeding Param2 to bus
            st0 : next_state <= st1;
            st1 : next_state <= st2;
 
@@ -44,16 +45,24 @@ always @(posedge clk or posedge rst)
            st3 : next_state <= st4;
            st4 : next_state <= st5;
            st5 : next_state <= st6;
-           st6 : next_state <= st7;
-           st7 : next_state <= st8; 
+           st6 : case(MFC)              //MFC == 1 to move to next state
+           1'b0: next_state <= st6;
+           1'b1: next_state <= st7;     //Done
+           default: next_state <= st6;
+           endcase
 
-           st8 : next_state <= st8; //setting all signals back to 0 
+           st7 : next_state <= st8;     //setting Done to 0 for both operations
+           st8 : next_state <= st8;     //keeping Done to 0 for both operations
 
            //Load Steps
-           st9 : next_state <= st10;
+           st9 : case(MFC)              //MFC == 1 to move to next state
+           1'b0: next_state <= st9;
+           1'b1: next_state <= st10;     
+           default: next_state <= st9;
+           endcase
            st10: next_state <= st11;
            st11: next_state <= st12;
-           st12: next_state <= st7; 
+           st12: next_state <= st7;     //Done
 
         default: next_state <= st0;
             
@@ -212,6 +221,7 @@ always @(pres_state)
             done <= 0;
             end 
 //---------------------------st6-----------------------------
+//MFC == 1 to move to next state
         st6: 
             begin
             PC_inc <= 0;
@@ -260,6 +270,7 @@ always @(pres_state)
             done <= 0;
             end
 //---------------------------st9-----------------------------
+//MFC == 1 to move to next state
         st9: 
             begin
             PC_inc <= 0;

@@ -13,8 +13,6 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
     begin
         if(rst || done)
             pres_state <= st0;
-        else if (pres_state == st4 && !MFC)
-            pres_state <= st4;
         else
             pres_state <= next_state;
     end
@@ -26,7 +24,13 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
            st1 : next_state <= st2;
            st2 : next_state <= st3;
            st3 : next_state <= st4;
-           st4 : next_state <= st5;
+
+           st4 : case(MFC)              //MFC == 1 to move to next state
+           1'b0: next_state <= st4;
+           1'b1: next_state <= st5;     
+           default: next_state <= st4;
+           endcase
+
            st5 : next_state <= st6;
            st6 : next_state <= st7;
            st7 : next_state <= st8;
@@ -83,6 +87,7 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             IR_EN <= 0;
             end
 //---------------------------st4-----------------------------
+//MFC == 1 to move to next state
         st4: 
             begin
             PC_Out <= 0;
