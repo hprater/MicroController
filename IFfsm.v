@@ -12,7 +12,9 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
 
     always @(posedge clk or posedge rst or posedge done) 
     begin
-        if(rst || done)
+        if(rst)
+            pres_state <= st0;
+        else if (done)
             pres_state <= st0;
         else
             pres_state <= next_state;
