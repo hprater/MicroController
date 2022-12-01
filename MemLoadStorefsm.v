@@ -1,12 +1,13 @@
 //Hayden Prater
 //November 21, 2022
 //Memory Load/Store
+`timescale 1ns/10ps
 
-module MemLoadStore (clk, rst, fullBitNum, MFC, PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done,
-                    G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out);
+module MemLoadStorefsm (clk, rst, fullBitNum, MFC, PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done,
+                    G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
 input clk, rst, MFC;
 input [15:0] fullBitNum;
-output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out;
+output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out;
 output reg PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done;
 reg [3:0] pres_state, next_state;
     parameter st0 = 4'b0000, st1 = 4'b0001, st2 = 4'b0010, st3 = 4'b0011, st4 = 4'b0100,
@@ -36,8 +37,8 @@ always @(posedge clk or posedge rst)
 
            //Choose Load or Store
            st2 : case(opCode)
-           4'b0100: next_state <= st3;
-           4'b0011: next_state <= st9;
+           4'b0011: next_state <= st3;
+           4'b0100: next_state <= st9;
            default: next_state <= st2;
            endcase
 
@@ -77,9 +78,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -95,20 +96,23 @@ always @(pres_state)
             //Gxout
             case(param2)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -124,20 +128,23 @@ always @(pres_state)
             //Gxout
             case(param2)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 1;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -151,9 +158,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -169,20 +176,23 @@ always @(pres_state)
             //Gxout
             case(param1)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -198,20 +208,23 @@ always @(pres_state)
             //Gxout
             case(param1)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -226,9 +239,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 1;
             mem_RW <= 0;
@@ -242,9 +255,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -258,9 +271,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -275,9 +288,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 1;
             mem_RW <= 1;
@@ -291,9 +304,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 1;
             mem_RW <= 1;
@@ -307,9 +320,9 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;
@@ -323,20 +336,23 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
             case(param1)
             6'b000000: begin
-                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+                end
+            6'b000001: begin
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 1;
                 end
             6'b000010: begin 
-                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0;
+                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0; P0_in <= 0;
                 end
             6'b000011: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0;
+                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0; P0_in <= 0;
                 end
             6'b000100: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1;
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1; P0_in <= 0;
             end
             endcase
             MAR_EN <= 0;
@@ -352,9 +368,9 @@ always @(pres_state)
         begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             MAR_EN <= 0;
             mem_EN <= 0;
             mem_RW <= 0;

@@ -2,11 +2,13 @@
 //November 21, 2022
 //ALU FSM
 
+`timescale 1ns/10ps
+
 module ALUfsm (clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done,
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out);
+                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
 input clk, rst;
 input [15:0] fullBitNum;
-output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out;
+output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out;
 output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done;
 reg [3:0] pres_state, next_state;
     parameter st0 = 4'b0000, st1 = 4'b0001, st2 = 4'b0010, st3 = 4'b0011, st4 = 4'b0100,
@@ -54,13 +56,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 
@@ -71,16 +73,19 @@ wire [5:0]param2 = fullBitNum[5:0];
             //Gxout
              case(param1)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             ALUin1 <= 0;
@@ -88,7 +93,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st2-----------------------------
@@ -98,16 +103,19 @@ wire [5:0]param2 = fullBitNum[5:0];
             //Gxout
              case(param1)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             ALUin1 <= 1;
@@ -115,7 +123,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st3-----------------------------
@@ -123,13 +131,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st4-----------------------------
@@ -139,16 +147,19 @@ wire [5:0]param2 = fullBitNum[5:0];
             //Gxout
              case(param2)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             ALUin1 <= 0;
@@ -156,7 +167,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st5-----------------------------
@@ -166,16 +177,19 @@ wire [5:0]param2 = fullBitNum[5:0];
             //Gxout
              case(param2)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
             end
             endcase
             ALUin1 <= 0;
@@ -183,7 +197,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st6-----------------------------
@@ -191,13 +205,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 1;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st7-----------------------------
@@ -205,13 +219,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 1;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 //---------------------------st8-----------------------------
@@ -219,7 +233,7 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
@@ -227,16 +241,19 @@ wire [5:0]param2 = fullBitNum[5:0];
             //Gxin
             case(param1)
             6'b000000: begin
-                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+                end
+            6'b000001: begin
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 1;
                 end
             6'b000010: begin 
-                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0;
+                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0; P0_in <= 0;
                 end
             6'b000011: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0;
+                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0; P0_in <= 0;
                 end
             6'b000100: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1;
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1; P0_in <= 0;
             end
             endcase
             done <= 0;
@@ -246,13 +263,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 1;
             end
 //---------------------------st10-----------------------------
@@ -260,13 +277,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
 
@@ -275,13 +292,13 @@ wire [5:0]param2 = fullBitNum[5:0];
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
             ALUin1 <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
             done <= 0;
             end
         endcase   

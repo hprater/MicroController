@@ -1,6 +1,7 @@
 //Hayden Prater
 //November 21, 2022
 //Instruction Fetch
+`timescale 1ns/10ps
 
 module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, IR_EN);
     input clk, rst, done, MFC;
