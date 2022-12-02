@@ -131,7 +131,7 @@ always @(pres_state)
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000001: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
                 G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
@@ -179,7 +179,7 @@ always @(pres_state)
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000001: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
                 G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
@@ -211,7 +211,7 @@ always @(pres_state)
                 G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
                 end
             6'b000001: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
                 end
             6'b000010: begin 
                 G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
