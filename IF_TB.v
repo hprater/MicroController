@@ -4,12 +4,12 @@
 
 module IF_TB;
 reg clk, rst, MFC, done, increment;
-wire [15:0] PCout;
+wire [15:0] count;
 
 wire PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, IR_EN; 
 
 IFfsm fsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, IR_EN);
-program_c PC(PCout, rst, increment);
+program_c PC(clk, count, rst, increment);
 
 initial begin
     $dumpfile("IFfsm.vcd");

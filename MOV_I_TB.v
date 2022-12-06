@@ -6,10 +6,11 @@ reg clk, rst;
 reg [15:0] fullBitNum;
 
 
-wire PC_inc, done, immediate_out_Movi, G0_in, G1_in, G2_in, G3_in, P0_in; 
+wire PC_inc, done, immediate_out_Movi, G0_in, G1_in, G2_in, G3_in, P0_in, P1_in; 
 wire [15:0] param2num;
 
-MOVIfsm fsm(clk, rst, fullBitNum, PC_inc, done, immediate_out_Movi, param2num, G0_in, G1_in, G2_in, G3_in, P0_in);
+MOVIfsm fsm(clk, rst, fullBitNum, PC_inc, done, immediate_out_Movi, param2num, 
+                    G0_in, G1_in, G2_in, G3_in, P0_in, P1_in);
 
 initial begin
     $dumpfile("MOVIfsm.vcd");

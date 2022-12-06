@@ -28,7 +28,7 @@ always @(posedge clk or posedge rst)
             pres_state <= st0;
     end
 
- always @(pres_state) 
+ always @(pres_state or MFC) 
     begin
         case (pres_state)
            //Feeding Param2 to bus
@@ -278,7 +278,7 @@ always @(pres_state)
             MDR_EN_write <= 0;
             done <= 1;
             end  
-//---------------------------st8 - Setting done t0 0----------
+//---------------------------st8 - Setting done to 0----------
         st8: 
             begin
             PC_inc <= 0;

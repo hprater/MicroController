@@ -5,9 +5,9 @@ module MovTB;
 reg clk, rst;
 reg [15:0] fullBitNum;
 
-wire PC_inc, done, G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out; 
+wire PC_inc, done, G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out; 
 
-MOVfsm fsm(clk, rst, fullBitNum, PC_inc, done, G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
+MOVfsm fsm(clk, rst, fullBitNum, PC_inc, done, G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
 
 initial begin
     $dumpfile("MOVfsm.vcd");

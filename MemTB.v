@@ -7,10 +7,10 @@ reg [15:0] fullBitNum;
 
 wire [15:0] param2num;
 wire PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done,
-                    G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out; 
+                    G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out; 
 
 MemLoadStorefsm fsm(clk, rst, fullBitNum, MFC, PC_inc, MAR_EN, mem_EN, mem_RW, MDR_EN_read, MDR_out, MDR_EN_write, done,
-                    G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
+                    G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
 
 initial begin
     $dumpfile("MemLoadStorefsm.vcd");

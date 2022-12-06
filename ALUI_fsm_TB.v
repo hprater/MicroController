@@ -7,10 +7,10 @@ reg [15:0] fullBitNum;
 
 wire [15:0] param2num;
 wire PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out,
-        G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out; 
+        G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out; 
 
-ALUIfsm fsm(clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out, param2num,
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
+ALUIfsm fsm(clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui, param2num,
+                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
 
 initial begin
     $dumpfile("ALUIfsm.vcd");
