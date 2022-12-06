@@ -31,7 +31,7 @@ always @(posedge clk or posedge rst)
             pres_state <= st0;
     end
 
- always @(pres_state or MFC) 
+ always @(pres_state or MFC or opCode) 
     begin
         case (pres_state)
            //Choose Load or Store

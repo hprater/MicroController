@@ -13,7 +13,7 @@ output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done;
 reg [3:0] pres_state, next_state;
     parameter st0 = 4'b0000, st1 = 4'b0001, st2 = 4'b0010, st3 = 4'b0011, st4 = 4'b0100,
               st5 = 4'b0101, st6 = 4'b0110, st7 = 4'b0111, st8 = 4'b1000, st9 = 4'b1001,
-              st10 = 4'b1010;
+              st10 = 4'b1010, st11 = 4'b1011;
 
 wire [3:0]opCode = fullBitNum[15:12];
 wire [5:0]param1 = fullBitNum[11:6]; 
@@ -44,7 +44,8 @@ wire [5:0]param2 = fullBitNum[5:0];
            st7 : next_state <= st8;
            st8 : next_state <= st9;
            st9 : next_state <= st10;
-           st10 : next_state <= st10;
+           st10 : next_state <= st11;
+           st11 : next_state <= st11;
         default: next_state <= st0;
         endcase
     end
@@ -286,10 +287,24 @@ wire [5:0]param2 = fullBitNum[5:0];
             ALU_outEN <= 0;
             //Gxin
             G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
-            done <= 1;
+            done <= 0;
             end
 //---------------------------st10-----------------------------
         st10: 
+            begin
+            PC_inc <= 0;
+            //Gxout
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
+            ALUin1 <= 0;
+            ALUin2 <= 0;
+            ALU_outlach <= 0;
+            ALU_outEN <= 0;
+            //Gxin
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
+            done <= 1;
+            end
+//---------------------------st11-----------------------------
+        st11: 
             begin
             PC_inc <= 0;
             //Gxout
