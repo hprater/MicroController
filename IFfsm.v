@@ -83,7 +83,7 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
-            mem_EN <= 1;
+            mem_EN <= 1; //may need RW first
             mem_RW <= 0;
             MDR_EN_read <= 0;
             MDR_out <= 0;

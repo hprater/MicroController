@@ -4,11 +4,11 @@
 `timescale 1ns/10ps
 
 module ALUIfsm (clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui, param2num,
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
+                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
 input clk, rst;
 input [15:0] fullBitNum;
 output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui;
-output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out;
+output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out;
 reg [3:0] pres_state, next_state;
     parameter st0 = 4'b0000, st1 = 4'b0001, st2 = 4'b0010, st3 = 4'b0011, st4 = 4'b0100,
               st5 = 4'b0101, st6 = 4'b0110, st7 = 4'b0111, st8 = 4'b1000, st9 = 4'b1001;
@@ -53,14 +53,15 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            param2num <= 16'b0000000000000000;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st1-----------------------------
@@ -70,20 +71,23 @@ always @(pres_state)
             //Gxout
              case(param1)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
                 end
             6'b000001: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1; P1_out <= 0;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0; P1_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
-            end
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0; P1_out <= 0;
+                end
+            6'b000101: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 1;
+                end
             endcase
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
@@ -91,7 +95,7 @@ always @(pres_state)
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 
@@ -102,20 +106,23 @@ always @(pres_state)
             //Gxout
              case(param1)
             6'b000000: begin
-                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
                 end
             6'b000001: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1;
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1; P1_out <= 0;
                 end
             6'b000010: begin 
-                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
                 end
             6'b000011: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0;
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0; P1_out <= 0;
                 end
             6'b000100: begin
-                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0;
-            end
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0; P1_out <= 0;
+                end
+            6'b000101: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 1;
+                end
             endcase
             ALUin1 <= 1;
             immediate_out_Alui <= 0;
@@ -123,7 +130,7 @@ always @(pres_state)
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st3-----------------------------
@@ -131,14 +138,14 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st4-----------------------------        
@@ -146,16 +153,16 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             //Passing # into bus to latch to ALUin2, might need another state if timing becomes problem
-            param2num <= param2;
+            param2num <= {10'b0000000000,param2};
             immediate_out_Alui <= 1;
             ALUin2 <= 1;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_out <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st5-----------------------------
@@ -163,14 +170,14 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 1;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st6-----------------------------
@@ -178,14 +185,14 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 1;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st7-----------------------------
@@ -193,7 +200,7 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
@@ -202,19 +209,22 @@ always @(pres_state)
             //Gxin
             case(param1)
             6'b000000: begin
-                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
                 end
             6'b000001: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 1;
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 1; P1_in <= 0;
                 end
             6'b000010: begin 
-                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
                 end
             6'b000011: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0; P0_in <= 0;
+                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0; P0_in <= 0; P1_in <= 0;
                 end
             6'b000100: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1; P0_in <= 0;
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1; P0_in <= 0; P1_in <= 0;
+            end
+            6'b000101: begin
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 1;
             end
             endcase
             done <= 0;
@@ -224,14 +234,14 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 1;
             end
 //---------------------------st9-----------------------------
@@ -239,14 +249,14 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //------------------------default----------------------------
@@ -254,14 +264,14 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0;
+            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
             ALUin1 <= 0;
             immediate_out_Alui <= 0;
             ALUin2 <= 0;
             ALU_outlach <= 0;
             ALU_outEN <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
         endcase

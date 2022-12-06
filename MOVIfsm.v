@@ -4,11 +4,11 @@
 `timescale 1ns/10ps
 
 module MOVIfsm (clk, rst, fullBitNum, PC_inc, done, immediate_out_Movi, param2num, 
-                    G0_in, G1_in, G2_in, G3_in, P0_in);
+                    G0_in, G1_in, G2_in, G3_in, P0_in, P1_in);
 
 input clk, rst;
 input [15:0] fullBitNum;
-output reg G0_in, G1_in, G2_in, G3_in, P0_in;
+output reg G0_in, G1_in, G2_in, G3_in, P0_in, P1_in;
 output reg PC_inc, done, immediate_out_Movi;
 reg [2:0] pres_state, next_state;
     parameter st0 = 3'b000, st1 = 3'b001, st2 = 3'b010, st3 = 3'b011, st4 = 3'b100, st5 = 3'b101;
@@ -48,9 +48,10 @@ always @(pres_state)
         st0: 
             begin
             PC_inc <= 0;
+            param2num <= 16'b0000000000000000;
             immediate_out_Movi <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st1-----------------------------
@@ -59,7 +60,7 @@ always @(pres_state)
             PC_inc <= 1;
             immediate_out_Movi <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
 //---------------------------st2-----------------------------
@@ -67,10 +68,10 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Immediate Number to bus
-            param2num <= param2;
+            param2num <= {10'b0000000000,param2};
             immediate_out_Movi <= 1;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end  
 //---------------------------st3-----------------------------
@@ -78,24 +79,27 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Immediate Number to bus
-            param2num <= param2;
+            param2num <= {10'b0000000000,param2};
             immediate_out_Movi <= 1;
             //Gxin
             case(param1)
             6'b000000: begin
-                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+                G0_in <= 1; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
                 end
             6'b000001: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 1;
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 1; P1_in <= 0;
                 end
             6'b000010: begin 
-                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+                G0_in <= 0; G1_in <= 1; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
                 end
             6'b000011: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0; P0_in <= 0;
+                G0_in <= 0; G1_in <= 0; G2_in <= 1; G3_in <= 0; P0_in <= 0; P1_in <= 0;
                 end
             6'b000100: begin
-                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1; P0_in <= 0;
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 1; P0_in <= 0; P1_in <= 0;
+            end
+            6'b000101: begin
+                G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 1;
             end
             endcase
             done <= 1;
@@ -106,7 +110,7 @@ always @(pres_state)
             PC_inc <= 0;
             immediate_out_Movi <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 1;
             end 
 //---------------------------st5-----------------------------
@@ -115,7 +119,7 @@ always @(pres_state)
             PC_inc <= 0;
             immediate_out_Movi <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end                       
 //------------------------default-----------------------------
@@ -124,7 +128,7 @@ always @(pres_state)
             PC_inc <= 0;
             immediate_out_Movi <= 0;
             //Gxin
-            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0;
+            G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
         endcase
