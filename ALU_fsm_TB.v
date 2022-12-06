@@ -10,7 +10,7 @@ wire PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done,
     G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out; 
 
 ALUfsm fsm(clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done,
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out);
+                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
 
 initial begin
     $dumpfile("ALUfsm.vcd");

@@ -102,7 +102,7 @@ always @(pres_state)
                 G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 1;
             end
             endcase
-            done <= 1;
+            done <= 0;
             end
 //---------------------------st4-----------------------------
         st4: 

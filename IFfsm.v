@@ -20,7 +20,7 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             pres_state <= next_state;
     end
 
-    always @(pres_state) 
+    always @(pres_state or MFC) 
     begin
         case (pres_state)
            st0 : next_state <= st1;
@@ -83,8 +83,8 @@ module IFfsm(clk, rst, done, MFC, PC_Out, MAR_EN, mem_EN, mem_RW, MDR_EN_read, M
             begin
             PC_Out <= 0;
             MAR_EN <= 0;
-            mem_EN <= 1; //may need RW first
-            mem_RW <= 0;
+            mem_EN <= 0; 
+            mem_RW <= 1;
             MDR_EN_read <= 0;
             MDR_out <= 0;
             IR_EN <= 0;

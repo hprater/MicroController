@@ -18,7 +18,7 @@
 `include "MOVIfsm.v"
 //------------------------------
 
-module top_level(clk, rst, P1data_from_TB, P0_data_out);
+module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
     //TB in/outs
     input clk, rst;
     input [15:0] P1data_from_TB;
@@ -27,7 +27,7 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out);
     //Mem in/outs
     output [15:0] addr;
     output wire RW, EN;
-    wire [15:0] bus;
+    inout wire [15:0] bus; //temp inout
 
     //Data
     wire [15:0] fullBitNum;
