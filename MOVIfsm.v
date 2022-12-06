@@ -4,9 +4,9 @@
 `timescale 1ns/10ps
 
 module MOVIfsm (clk, rst, fullBitNum, PC_inc, done, immediate_out_Movi, param2num, 
-                    G0_in, G1_in, G2_in, G3_in, P0_in, P1_in);
+                    G0_in, G1_in, G2_in, G3_in, P0_in, P1_in, IF_active);
 
-input clk, rst;
+input clk, rst, IF_active;
 input [15:0] fullBitNum;
 output reg G0_in, G1_in, G2_in, G3_in, P0_in, P1_in;
 output reg PC_inc, done, immediate_out_Movi;
@@ -21,6 +21,8 @@ output reg[15:0] param2num;
 always @(posedge clk or posedge rst) 
     begin
         if (rst)
+            pres_state <= st0;
+        else if (IF_active)
             pres_state <= st0;
         else if (opCode == 4'b0111)
             pres_state <= next_state;

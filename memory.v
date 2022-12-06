@@ -1,9 +1,10 @@
+`timescale 1ns/10ps
 module memory (EN, MFC, addr, RW, Data_in, Data_out);
     input EN, RW;
     input [15:0] addr, Data_in;
-    output [15:0] Data_out;
+    output reg[15:0] Data_out;
     output MFC;
-    reg Data_out, memorycell;
+    reg [15:0] memorycell;
     reg MFC;
 
     always @(posedge EN)

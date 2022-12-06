@@ -5,8 +5,8 @@
 `timescale 1ns/10ps
 
 module ALUfsm (clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done,
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
-input clk, rst;
+                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out, IF_active);
+input clk, rst, IF_active;
 input [15:0] fullBitNum;
 output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out;
 output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done;
@@ -19,10 +19,11 @@ wire [3:0]opCode = fullBitNum[15:12];
 wire [5:0]param1 = fullBitNum[11:6]; 
 wire [5:0]param2 = fullBitNum[5:0];
 
-
     always @(posedge clk or posedge rst) 
     begin
         if (rst)
+            pres_state <= st0;
+        else if (IF_active)
             pres_state <= st0;
         else if (opCode == 4'b1001 || opCode == 4'b1010 || opCode == 4'b1011 || opCode == 4'b1100 || opCode == 4'b1101 || opCode == 4'b1110 || opCode == 4'b1111)
             pres_state <= next_state;
@@ -301,7 +302,6 @@ wire [5:0]param2 = fullBitNum[5:0];
             G0_in <= 0; G1_in <= 0; G2_in <= 0; G3_in <= 0; P0_in <= 0; P1_in <= 0;
             done <= 0;
             end
-
 //------------------------default-----------------------------
         default: 
             begin

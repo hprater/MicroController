@@ -3,8 +3,8 @@
 //MOV 
 `timescale 1ns/10ps
 
-module MOVfsm (clk, rst, fullBitNum, PC_inc, done, G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
-input clk, rst;
+module MOVfsm (clk, rst, fullBitNum, PC_inc, done, G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out, IF_active);
+input clk, rst, IF_active;
 input [15:0] fullBitNum;
 output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out;
 output reg PC_inc, done;
@@ -18,6 +18,8 @@ wire [5:0]param2 = fullBitNum[5:0];
 always @(posedge clk or posedge rst) 
     begin
         if (rst)
+            pres_state <= st0;
+        else if (IF_active)
             pres_state <= st0;
         else if (opCode == 4'b0110)
             pres_state <= next_state;
@@ -84,7 +86,26 @@ always @(pres_state)
             begin
             PC_inc <= 0;
             //Gxout
-            G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
+            case(param2)
+            6'b000000: begin
+                G0_out <= 1; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
+                end
+            6'b000001: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 1; P1_out <= 0;
+                end
+            6'b000010: begin 
+                G0_out <= 0; G1_out <= 1; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 0;
+                end
+            6'b000011: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 1; G3_out <= 0; P0_out <= 0; P1_out <= 0;
+                end
+            6'b000100: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 1; P0_out <= 0; P1_out <= 0;
+                end
+            6'b000101: begin
+                G0_out <= 0; G1_out <= 0; G2_out <= 0; G3_out <= 0; P0_out <= 0; P1_out <= 1;
+                end
+            endcase
             //Gxin
             case(param1)
             6'b000000: begin

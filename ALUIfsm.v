@@ -4,8 +4,8 @@
 `timescale 1ns/10ps
 
 module ALUIfsm (clk, rst, fullBitNum, PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui, param2num,
-                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out);
-input clk, rst;
+                G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out, IF_active);
+input clk, rst, IF_active;
 input [15:0] fullBitNum;
 output reg PC_inc, ALUin1, ALUin2, ALU_outlach, ALU_outEN, done, immediate_out_Alui;
 output reg G0_in, G0_out, G1_in, G1_out, G2_in, G2_out, G3_in, G3_out, P0_in, P0_out, P1_in, P1_out;
@@ -21,6 +21,8 @@ output reg[15:0] param2num;
 always @(posedge clk or posedge rst) 
     begin
         if (rst)
+            pres_state <= st0;
+        else if (IF_active)
             pres_state <= st0;
         else if (opCode == 4'b0001 || opCode == 4'b0010)
             pres_state <= next_state;

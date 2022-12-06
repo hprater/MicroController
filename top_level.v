@@ -24,9 +24,6 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
     input [15:0] P1data_from_TB;
     output wire[15:0] P0_data_out;
     wire MFC;
-    //Mem in/outs
-    output [15:0] addr;
-    output wire RW, EN;
     inout wire [15:0] bus; //temp inout
 
     //Data
@@ -41,7 +38,7 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
     wire IF_mem_RW, MLSfsm_mem_RW;
     wire IF_MDR_EN_read, MLSfsm_MDR_EN_read;
     wire IF_MDR_out, MLSfsm_MDR_out;
-    wire IR_EN;
+    wire IF_EN;
     wire ALUfsm_ALUin1, ALUIfsm_ALUin1; 
     wire ALUfsm_ALUin2, ALUIfsm_ALUin2; 
     wire ALUfsm_ALU_outlach, ALUIfsm_ALU_outlach; 
@@ -57,12 +54,13 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
     
      
     //Main Signals
+    wire IF_active;
     assign done = (ALUfsm_done || ALUIfsm_done || MLSfsm_done || movFSM_done || moviFSM_done);
-    assign MAR_EN = (IR_MAR_EN || MLSfsm_MAR_EN);
-    assign mem_EN = (IR_mem_EN || MLSfsm_mem_EN);
-    assign mem_RW = (IR_mem_RW || MLSfsm_mem_RW);
-    assign MDR_EN_read = (IR_MDR_EN_read || MLSfsm_MDR_EN_read);
-    assign MDR_out = (IR_MDR_out || MLSfsm_MDR_out);
+    assign MAR_EN = (IF_MAR_EN || MLSfsm_MAR_EN);
+    assign mem_EN = (IF_mem_EN || MLSfsm_mem_EN);
+    assign mem_RW = (IF_mem_RW || MLSfsm_mem_RW);
+    assign MDR_EN_read = (IF_MDR_EN_read || MLSfsm_MDR_EN_read);
+    assign MDR_out = (IF_MDR_out || MLSfsm_MDR_out);
 
     assign PC_inc = (ALUfsm_PC_inc || ALUIfsm_PC_inc || MLSfsm_PC_inc || movFSM_PC_inc || moviFSM_PC_inc);
     assign ALUin0 = (ALUfsm_ALUin1 || ALUIfsm_ALUin1);
@@ -85,25 +83,25 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
 
 
     //FSM's
-    IFfsm IF(clk, rst, done, MFC, PC_Out, IR_MAR_EN, IR_mem_EN, IR_mem_RW, IR_MDR_EN_read, IR_MDR_out, IR_EN);
+    IFfsm IF(clk, rst, done, MFC, PC_Out, IF_MAR_EN, IF_mem_EN, IF_mem_RW, IF_MDR_EN_read, IF_MDR_out, IF_EN, IF_active);
 
     ALUfsm aluFSM(clk, rst, fullBitNum, ALUfsm_PC_inc, ALUfsm_ALUin1, ALUfsm_ALUin2, ALUfsm_ALU_outlach, ALUfsm_ALU_outEN, ALUfsm_done,
                 ALUfsm_G0_in, ALUfsm_G0_out, ALUfsm_G1_in, ALUfsm_G1_out, ALUfsm_G2_in, ALUfsm_G2_out, ALUfsm_G3_in, ALUfsm_G3_out, 
-                ALUfsm_P0_in, ALUfsm_P0_out, ALUfsm_P1_in, ALUfsm_P1_out);
+                ALUfsm_P0_in, ALUfsm_P0_out, ALUfsm_P1_in, ALUfsm_P1_out, IF_active);
             
     ALUIfsm aluiFSM(clk, rst, fullBitNum, ALUIfsm_PC_inc, ALUIfsm_ALUin1, ALUIfsm_ALUin2, ALUIfsm_ALU_outlach, ALUIfsm_ALU_outEN, ALUIfsm_done,
                 immediate_out_Alui, ALUIfsm_param2num, ALUIfsm_G0_in, ALUIfsm_G0_out, ALUIfsm_G1_in, ALUIfsm_G1_out, ALUIfsm_G2_in, ALUIfsm_G2_out,
-                ALUIfsm_G3_in, ALUIfsm_G3_out, ALUIfsm_P0_in, ALUIfsm_P0_out, ALUIfsm_P1_in, ALUIfsm_P1_out);
+                ALUIfsm_G3_in, ALUIfsm_G3_out, ALUIfsm_P0_in, ALUIfsm_P0_out, ALUIfsm_P1_in, ALUIfsm_P1_out, IF_active);
 
     MemLoadStorefsm MLSfsm(clk, rst, fullBitNum, MFC, MLSfsm_PC_inc, MLSfsm_MAR_EN, MLSfsm_mem_EN, MLSfsm_mem_RW, MLSfsm_MDR_EN_read, MLSfsm_MDR_out, 
                 MDR_EN_write, MLSfsm_done, MLSfsm_G0_in,  MLSfsm_G0_out, MLSfsm_G1_in, MLSfsm_G1_out, MLSfsm_G2_in, MLSfsm_G2_out, MLSfsm_G3_in, MLSfsm_G3_out,
-                MLSfsm_P0_in, MLSfsm_P0_out, MLSfsm_P1_in, MLSfsm_P1_out);
+                MLSfsm_P0_in, MLSfsm_P0_out, MLSfsm_P1_in, MLSfsm_P1_out, IF_active);
 
     MOVfsm movFSM(clk, rst, fullBitNum, movFSM_PC_inc, movFSM_done, movFSM_G0_in, movFSM_G0_out, movFSM_G1_in, movFSM_G1_out,
-                 movFSM_G2_in, movFSM_G2_out, movFSM_G3_in, movFSM_G3_out, movFSM_P0_in, movFSM_P0_out, movFSM_P1_in, movFSM_P1_out);
+                 movFSM_G2_in, movFSM_G2_out, movFSM_G3_in, movFSM_G3_out, movFSM_P0_in, movFSM_P0_out, movFSM_P1_in, movFSM_P1_out, IF_active);
 
     MOVIfsm moviFSM(clk, rst, fullBitNum, moviFSM_PC_inc, moviFSM_done, immediate_out_Movi, moviFSM_param2num, 
-                    moviFSM_G0_in, moviFSM_G1_in, moviFSM_G2_in, moviFSM_G3_in, moviFSM_P0_in, moviFSM_P1_in);
+                    moviFSM_G0_in, moviFSM_G1_in, moviFSM_G2_in, moviFSM_G3_in, moviFSM_P0_in, moviFSM_P1_in, IF_active);
 
             
 
@@ -167,7 +165,7 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
     tri_state t8(MDR_out, mem_dataOut, bus);
 
     //Instruction Register
-    dff IR (clk, rst, IR_EN, bus, fullBitNum);
+    dff IR (clk, rst, IF_EN, bus, fullBitNum);
 
     //Tri-states for Immideate;
     tri_state ALUInum(immediate_out_Alui, ALUIfsm_param2num, bus);
