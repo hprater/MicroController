@@ -28,7 +28,7 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
 
     //Data
     wire [15:0] fullBitNum;
-    wire [15:0] ALUIfsm_param2num, moviFSM_param2num;
+    wire [15:0] ALUIfsm_param2num, moviFSM_param2num, memFSM_param2num;
 
     //FSM Signals
     wire ALUfsm_done, ALUIfsm_done, MLSfsm_done, movFSM_done, moviFSM_done;
@@ -94,7 +94,7 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
                 ALUIfsm_G3_in, ALUIfsm_G3_out, ALUIfsm_P0_in, ALUIfsm_P0_out, ALUIfsm_P1_in, ALUIfsm_P1_out, IF_active);
 
     MemLoadStorefsm MLSfsm(clk, rst, fullBitNum, MFC, MLSfsm_PC_inc, MLSfsm_MAR_EN, MLSfsm_mem_EN, MLSfsm_mem_RW, MLSfsm_MDR_EN_read, MLSfsm_MDR_out, 
-                MDR_EN_write, MLSfsm_done, MLSfsm_G0_in,  MLSfsm_G0_out, MLSfsm_G1_in, MLSfsm_G1_out, MLSfsm_G2_in, MLSfsm_G2_out, MLSfsm_G3_in, MLSfsm_G3_out,
+                MDR_EN_write, MLSfsm_done, memFSM_param2num, Load_out_addr, MLSfsm_G0_in,  MLSfsm_G0_out, MLSfsm_G1_in, MLSfsm_G1_out, MLSfsm_G2_in, MLSfsm_G2_out, MLSfsm_G3_in, MLSfsm_G3_out,
                 MLSfsm_P0_in, MLSfsm_P0_out, MLSfsm_P1_in, MLSfsm_P1_out, IF_active);
 
     MOVfsm movFSM(clk, rst, fullBitNum, movFSM_PC_inc, movFSM_done, movFSM_G0_in, movFSM_G0_out, movFSM_G1_in, movFSM_G1_out,
@@ -171,5 +171,7 @@ module top_level(clk, rst, P1data_from_TB, P0_data_out, bus);
     tri_state ALUInum(immediate_out_Alui, ALUIfsm_param2num, bus);
 
     tri_state MOVInum(immediate_out_Movi, moviFSM_param2num, bus);
+
+    tri_state AddressForLoad(Load_out_addr, memFSM_param2num, bus);
 
 endmodule 
