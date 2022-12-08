@@ -11,10 +11,10 @@ module top_levelTB;
 
 reg clk, rst;
 reg[15:0] P1data_from_TB;
-wire [15:0] P0_data_out, bus;
+wire [15:0] P0_data_out;
 
 
-top_level test(clk, rst, P1data_from_TB, P0_data_out, bus);
+top_level test(clk, rst, P1data_from_TB, P0_data_out);
 
 initial 
 begin
